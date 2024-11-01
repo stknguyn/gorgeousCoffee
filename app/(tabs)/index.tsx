@@ -162,7 +162,7 @@ export default function Home() {
               iconUrl={feature.iconUrl}
               label={feature.label}
             />
-          ))};
+          ))}
         </XStack>
       </YStack>
 
