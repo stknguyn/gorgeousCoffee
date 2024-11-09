@@ -12,7 +12,7 @@ export default function TabBar({ state, descriptors, navigation }) {
         index: (props, index) => <AntDesign name='home' size={26} color={greyColor} {...props} />,
         create: (props, index) => <Ionicons name='create-outline' size={26} color={greyColor} {...props} />,
         camera: (props, index) => <AntDesign name='camerao' size={26} color={greyColor} {...props} />,
-        explore: (props, index) => <Feather name='globe' size={26} color={greyColor} {...props} />,
+        history: (props, index) => <Feather name='globe' size={26} color={greyColor} {...props} />,
         profile: (props, index) => <AntDesign name='user' size={26} color={greyColor} {...props} />
     }
 
