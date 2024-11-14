@@ -4,12 +4,17 @@ import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Entypo from '@expo/vector-icons/Entypo';
 import PhotoPreviewSection from '../../components/camera/PhotoPreviewSection';
+import * as ImagePicker from 'expo-image-picker';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { Image } from 'tamagui';
+import PhotoPickerSection from 'components/camera/PhotoPickerSection';
 
 export default function Camera() {
   const [facing, setFacing] = useState<CameraType>('back');
   const [permission, requestPermission] = useCameraPermissions();
   const [photo, setPhoto] = useState<any>(null);
   const cameraRef = useRef<CameraView | null>(null);
+  const [image, setImage] = useState<string | null>(null);
 
   if (!permission) {
     // Camera permissions are still loading.
@@ -42,9 +47,31 @@ export default function Camera() {
     }
   };
 
+  const handleGallery = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      // allowsEditing: true,
+      aspect: [2, 4],
+      quality: 1,
+      // base64: true
+      // allowsMultipleSelection: true,
+    });
+
+    console.log(result);
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
+  }
+
   const handleRetakePhoto = () => setPhoto(null);
 
+  const handleRepickPhoto = () => setImage(null);
+
   if (photo) return <PhotoPreviewSection photo={photo} handleRetakePhoto={handleRetakePhoto} />;
+
+  if (image) return <PhotoPickerSection photo={image} handleRetakePhoto={handleRepickPhoto} />;
 
   return (
     <View style={styles.container}>
@@ -55,7 +82,10 @@ export default function Camera() {
         <View style={styles.boundingBox} />
 
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button} onPress={toggleCameraFacing}>
+          <TouchableOpacity style={styles.button} onPress={handleGallery}>
+            <Ionicons name="image-outline" size={44} color="black" />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={handleRepickPhoto}>
             <AntDesign name="retweet" size={44} color="black" />
           </TouchableOpacity>
           <TouchableOpacity style={styles.button} onPress={handleTakePhoto}>
