@@ -32,6 +32,8 @@ import city from "../../assets/images/city.png";
 import FeatureItem from "components/home/featurebox";
 import GlassmorphismCard from "components/home/GlassContainer";
 import MyPlantCard from "components/home/myplantContainer";
+import { useEffect } from "react";
+import { useRouter } from "expo-router";
 
 export default function Home() {
   const test = 10;
@@ -54,6 +56,12 @@ export default function Home() {
       label: "Giá cả thị trường",
     },
   ];
+
+  // login
+  // const router = useRouter();
+  // useEffect(() => {
+  //   router.replace("/login");
+  // }, [router]);
 
   return (
     <ScrollView>
@@ -314,13 +322,24 @@ export default function Home() {
                     height: 150,
                   }}
                 />
-                <Text textAlign="center" color="#294531" fontSize="$6">Cà phê</Text>
+                <Text textAlign="center" color="#294531" fontSize="$6">
+                  Cà phê
+                </Text>
               </YStack>
 
               <XStack top="$-12" justifyContent="space-between" padding="$3">
-                <MyPlantCard text="Kĩ thuật canh tác" uri="https://cdn-icons-png.flaticon.com/128/188/188333.png" />
-                <MyPlantCard text="Sâu và bệnh hại" uri="https://cdn-icons-png.flaticon.com/128/11167/11167005.png" />
-                <MyPlantCard text="Lịch nông vụ" uri="https://cdn-icons-png.flaticon.com/128/8718/8718037.png" />
+                <MyPlantCard
+                  text="Kĩ thuật canh tác"
+                  uri="https://cdn-icons-png.flaticon.com/128/188/188333.png"
+                />
+                <MyPlantCard
+                  text="Sâu và bệnh hại"
+                  uri="https://cdn-icons-png.flaticon.com/128/11167/11167005.png"
+                />
+                <MyPlantCard
+                  text="Lịch nông vụ"
+                  uri="https://cdn-icons-png.flaticon.com/128/8718/8718037.png"
+                />
               </XStack>
             </YStack>
           </YStack>
@@ -330,7 +349,7 @@ export default function Home() {
         <XStack alignItems="center" justifyContent="center" height={300}>
           <H1 textAlign="center">CloseAI</H1>
         </XStack>
-        
+
         {/* Expert */}
         {/* News */}
         {/* Logo team */}

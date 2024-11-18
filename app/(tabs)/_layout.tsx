@@ -1,13 +1,18 @@
 import { Link, Tabs } from "expo-router";
 import { Button, View, XStack, useTheme } from "tamagui";
 import { Menu, Search, Bell } from "@tamagui/lucide-icons";
-import TabBar from 'components/TabBar';
+import TabBar from "components/TabBar";
+import { UserProvider } from "../../context/UserContext";
 import Header from "components/Header";
+
+const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  return <UserProvider>{children}</UserProvider>;
+};
 
 export default function TabLayout() {
   const theme = useTheme();
 
-  const title = "LACAPHE"
+  const title = "LACAPHE";
 
   return (
     <Tabs
@@ -60,12 +65,12 @@ export default function TabLayout() {
           headerTitleAlign: "center",
           headerRight: () => (
             <XStack gap="$3" right="$4">
-                <View>
-                  <Search />
-                </View>
-                <View>
-                  <Bell />
-                </View>
+              <View>
+                <Search />
+              </View>
+              <View>
+                <Bell />
+              </View>
             </XStack>
           ),
         }}
@@ -84,12 +89,12 @@ export default function TabLayout() {
           headerTitleAlign: "center",
           headerRight: () => (
             <XStack gap="$3" right="$4">
-                <View>
-                  <Search />
-                </View>
-                <View>
-                  <Bell />
-                </View>
+              <View>
+                <Search />
+              </View>
+              <View>
+                <Bell />
+              </View>
             </XStack>
           ),
         }}
@@ -108,12 +113,12 @@ export default function TabLayout() {
           headerTitleAlign: "center",
           headerRight: () => (
             <XStack gap="$3" right="$4">
-                <View>
-                  <Search />
-                </View>
-                <View>
-                  <Bell />
-                </View>
+              <View>
+                <Search />
+              </View>
+              <View>
+                <Bell />
+              </View>
             </XStack>
           ),
         }}
@@ -132,12 +137,12 @@ export default function TabLayout() {
           headerTitleAlign: "center",
           headerRight: () => (
             <XStack gap="$3" right="$4">
-                <View>
-                  <Search />
-                </View>
-                <View>
-                  <Bell />
-                </View>
+              <View>
+                <Search />
+              </View>
+              <View>
+                <Bell />
+              </View>
             </XStack>
           ),
         }}
@@ -156,12 +161,12 @@ export default function TabLayout() {
           headerTitleAlign: "center",
           headerRight: () => (
             <XStack gap="$3" right="$4">
-                <View>
-                  <Search />
-                </View>
-                <View>
-                  <Bell />
-                </View>
+              <View>
+                <Search />
+              </View>
+              <View>
+                <Bell />
+              </View>
             </XStack>
           ),
         }}
