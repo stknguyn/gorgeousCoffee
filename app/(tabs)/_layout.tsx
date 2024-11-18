@@ -51,7 +51,7 @@ export default function TabLayout() {
         options={{
           title: "Home",
           headerLeft: () => (
-            <Link href="/camera" asChild>
+            <Link href="/result" asChild>
               <Button mr="$4" bg="$colorTransparent" color="$yellow12">
                 <Menu />
               </Button>

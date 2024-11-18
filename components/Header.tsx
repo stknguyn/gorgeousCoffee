@@ -7,11 +7,12 @@ import { Menu, Search, Bell } from "@tamagui/lucide-icons";
 const Header = (tabname) => ({
   title: {tabname},
   headerLeft: () => (
-    <Link href="/camera" asChild>
+    // <Link href="/result" asChild>
       <Button mr="$4" bg="$colorTransparent" color="$yellow12">
-        <Menu />
+        {/* <Menu /> */}
+        <Bell />
       </Button>
-    </Link>
+    // </Link>
   ),
   headerTitleAlign: "center",
   headerRight: () => (
