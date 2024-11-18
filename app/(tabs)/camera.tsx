@@ -8,6 +8,7 @@ import * as ImagePicker from 'expo-image-picker';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Image } from 'tamagui';
 import PhotoPickerSection from 'components/camera/PhotoPickerSection';
+import Result from 'app/result';
 
 export default function Camera() {
   const [facing, setFacing] = useState<CameraType>('back');
@@ -15,6 +16,11 @@ export default function Camera() {
   const [photo, setPhoto] = useState<any>(null);
   const cameraRef = useRef<CameraView | null>(null);
   const [image, setImage] = useState<string | null>(null);
+  const [name, setName] = useState<string | null>(null);
+  const [cause, setCause] = useState<string | null>(null);
+  const [solution, setSolution] = useState<string | null>(null);
+  const [prePhoto, setPrephoto] = useState<string | null>(null);
+  const [result, setResult] = useState<string | null>(null);
 
   if (!permission) {
     // Camera permissions are still loading.
@@ -47,23 +53,84 @@ export default function Camera() {
     }
   };
 
+  // const handleGallery = async () => {
+  //   // No permissions request is necessary for launching the image library
+  //   let result = await ImagePicker.launchImageLibraryAsync({
+  //     mediaTypes: ImagePicker.MediaTypeOptions.All,
+  //     // allowsEditing: true,
+  //     aspect: [2, 4],
+  //     quality: 1,
+  //     // base64: true
+  //     // allowsMultipleSelection: true,
+  //   });
+
+  //   console.log(result);
+
+  //   if (!result.canceled) {
+  //     setImage(result.assets[0].uri);
+  //   }
+  // }
+  const requestPermissions = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    return status === 'granted';
+  };
+
   const handleGallery = async () => {
     // No permissions request is necessary for launching the image library
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      // allowsEditing: true,
-      aspect: [2, 4],
-      quality: 1,
-      // base64: true
-      // allowsMultipleSelection: true,
-    });
-
-    console.log(result);
-
-    if (!result.canceled) {
-      setImage(result.assets[0].uri);
+    const hasPermission = await requestPermissions();
+    if (!hasPermission) {
+      alert('Permission to access media library is required!');
+      return;
     }
-  }
+
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      quality: 1,
+      base64: false,
+    });
+  
+    console.log(result);
+  
+    if (!result.canceled) {
+      setImage(result.assets[0].uri); // Set the selected image URI
+  
+      // Prepare the FormData for the API call
+      const formData = new FormData();
+      formData.append('file', {
+        uri: result.assets[0].uri, // Use the 'image' state variable
+        type: 'image/jpeg',
+        name: 'photo.jpg',
+      } as any);      
+      formData.append('user_id', '672e3f347e1a5495453f36f8');
+  
+      try {
+        const response = await fetch('https://cfapi.share.zrok.io/predictor/predict', {
+          method: 'POST',
+          body: formData,
+        });
+  
+        const data = await response.json();
+  
+        if (response.ok) {
+          console.log('API Response:', data);
+          setResult(`Tên bệnh: ${data.result.name}\nNguyên nhân: ${data.result.cause}\nGiải pháp: ${data.result.solution}`);
+          setName(data.result.name);
+          setCause(data.result.cause);
+          setSolution(data.result.solution);
+          setPrephoto(data.image_url);
+        } else {
+          console.error('Error in API request:', data);
+          alert('Error while processing the image.');
+          setResult(`Lỗi: ${data.message || 'Không thể dự đoán'}`);
+        }
+      } catch (error) {
+        console.error('API call failed:', error);
+        alert('An error occurred while calling the API.');
+        setResult('Đã xảy ra lỗi khi gửi API.');
+      }
+    }
+  };
+  
 
   const handleRetakePhoto = () => setPhoto(null);
 
@@ -71,7 +138,11 @@ export default function Camera() {
 
   if (photo) return <PhotoPreviewSection photo={photo} handleRetakePhoto={handleRetakePhoto} />;
 
-  if (image) return <PhotoPickerSection photo={image} handleRetakePhoto={handleRepickPhoto} />;
+  // if (image) return <PhotoPickerSection photo={image} handleRetakePhoto={handleRepickPhoto} />;
+
+  if (result) return <Result name={name} cause={cause} solution={solution} uri={prePhoto} />
+
+  console.log(name)
 
   return (
     <View style={styles.container}>

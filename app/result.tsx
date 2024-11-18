@@ -1,7 +1,9 @@
-import React from "react";
+import { Button } from 'react-native'; // Import Button component
+import React, { useState } from "react";
 import { View, Text, Image, StyleSheet, ScrollView } from "react-native";
+import { router } from 'expo-router';
 
-export default function Result() {
+export default function Result({ name, cause, solution, uri }) {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       {/* Header */}
@@ -10,7 +12,7 @@ export default function Result() {
       {/* Image Section */}
       <View style={styles.imageContainer}>
         <Image
-          source={{ uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcST2Fa_H0CokN31U2vwvRo-XrGLzZEj_M3w6Q&s" }} // Thay bằng link ảnh hoặc require local
+          source={{ uri: uri }} // Replace with image link or local require
           style={styles.image}
           resizeMode="contain"
         />
@@ -18,12 +20,12 @@ export default function Result() {
 
       {/* Disease Information */}
       <View style={styles.infoContainer}>
-        <Text style={styles.title}>Rust</Text>
+        <Text style={styles.title}>{name}</Text>
 
         <View style={styles.infoSection}>
-          <Text style={styles.infoTitle}>Triệu chứng:</Text>
+          <Text style={styles.infoTitle}>Nguyên nhân:</Text>
           <Text style={styles.infoText}>
-            Bệnh xuất hiện dưới dạng các vết đốm màu vàng cam trên mặt dưới của lá, dẫn đến rụng lá và làm lá bị rụng sớm, gây tổn hại cho quá trình quang hợp.
+            {cause}
           </Text>
         </View>
 
@@ -37,7 +39,7 @@ export default function Result() {
         <View style={styles.infoSection}>
           <Text style={styles.infoTitle}>Phòng ngừa:</Text>
           <Text style={styles.infoText}>
-            Các biện pháp quản lý bệnh bao gồm giống cây chống chịu bệnh, áp dụng các kỹ thuật canh tác và sử dụng thuốc bảo vệ thực vật hợp lý.
+            {solution}
           </Text>
         </View>
       </View>
@@ -50,6 +52,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     backgroundColor: "#fff",
     padding: 16,
+    height: 1050
   },
   header: {
     fontSize: 20,
