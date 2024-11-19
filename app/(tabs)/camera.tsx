@@ -1,16 +1,39 @@
-import { CameraView, CameraType, useCameraPermissions } from 'expo-camera';
-import { useRef, useState } from 'react';
-import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import AntDesign from '@expo/vector-icons/AntDesign';
-import Entypo from '@expo/vector-icons/Entypo';
-import PhotoPreviewSection from '../../components/camera/PhotoPreviewSection';
-import * as ImagePicker from 'expo-image-picker';
-import Ionicons from '@expo/vector-icons/Ionicons';
-import { Image } from 'tamagui';
-import PhotoPickerSection from 'components/camera/PhotoPickerSection';
+import { CameraView, CameraType, useCameraPermissions } from "expo-camera";
+import { useRef, useState } from "react";
+import { Button, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import AntDesign from "@expo/vector-icons/AntDesign";
+import Entypo from "@expo/vector-icons/Entypo";
+import PhotoPreviewSection from "../../components/camera/PhotoPreviewSection";
+import * as ImagePicker from "expo-image-picker";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { Image } from "tamagui";
+import PhotoPickerSection from "components/camera/PhotoPickerSection";
+import { useEffect } from "react";
+import { useRouter } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 
 export default function Camera() {
-  const [facing, setFacing] = useState<CameraType>('back');
+  const router = useRouter();
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const value = await AsyncStorage.getItem("phone");
+        if (value !== null) {
+        
+        } else {
+          router.replace("/login");
+        }
+      } catch (e) {
+        console.error("Error reading value:", e);
+      }
+    };
+
+    getData(); // Gọi hàm lấy dữ liệu
+  }, [router]); // Chạy lại mỗi khi router thay đổi
+
+  const [facing, setFacing] = useState<CameraType>("back");
   const [permission, requestPermission] = useCameraPermissions();
   const [photo, setPhoto] = useState<any>(null);
   const cameraRef = useRef<CameraView | null>(null);
@@ -25,14 +48,16 @@ export default function Camera() {
     // Camera permissions are not granted yet.
     return (
       <View style={styles.container}>
-        <Text style={styles.message}>We need your permission to show the camera</Text>
+        <Text style={styles.message}>
+          We need your permission to show the camera
+        </Text>
         <Button onPress={requestPermission} title="grant permission" />
       </View>
     );
   }
 
   function toggleCameraFacing() {
-    setFacing(current => (current === 'back' ? 'front' : 'back'));
+    setFacing((current) => (current === "back" ? "front" : "back"));
   }
 
   const handleTakePhoto = async () => {
@@ -63,21 +88,30 @@ export default function Camera() {
     if (!result.canceled) {
       setImage(result.assets[0].uri);
     }
-  }
+  };
 
   const handleRetakePhoto = () => setPhoto(null);
 
   const handleRepickPhoto = () => setImage(null);
 
-  if (photo) return <PhotoPreviewSection photo={photo} handleRetakePhoto={handleRetakePhoto} />;
+  if (photo)
+    return (
+      <PhotoPreviewSection
+        photo={photo}
+        handleRetakePhoto={handleRetakePhoto}
+      />
+    );
 
-  if (image) return <PhotoPickerSection photo={image} handleRetakePhoto={handleRepickPhoto} />;
+  if (image)
+    return (
+      <PhotoPickerSection photo={image} handleRetakePhoto={handleRepickPhoto} />
+    );
 
   return (
     <View style={styles.container}>
       <CameraView style={styles.camera} facing={facing} ref={cameraRef}>
         {/* Red point overlay */}
-        <Entypo name='star' size={40} color={"red"} style={styles.redPoint} />
+        <Entypo name="star" size={40} color={"red"} style={styles.redPoint} />
 
         <View style={styles.boundingBox} />
 
@@ -100,39 +134,39 @@ export default function Camera() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   message: {
-    textAlign: 'center',
+    textAlign: "center",
     paddingBottom: 10,
   },
   camera: {
     flex: 1,
   },
   buttonContainer: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 100, // Moves the button container 30 units above the bottom
     left: 0,
     right: 0,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    backgroundColor: 'transparent',
+    flexDirection: "row",
+    justifyContent: "center",
+    backgroundColor: "transparent",
   },
   button: {
     marginHorizontal: 10,
-    backgroundColor: 'gray',
+    backgroundColor: "gray",
     borderRadius: 10,
     padding: 10,
   },
   text: {
     fontSize: 24,
-    fontWeight: 'bold',
-    color: 'white',
+    fontWeight: "bold",
+    color: "white",
   },
   redPoint: {
-    position: 'absolute',
-    top: '37%',
-    left: '45%',
+    position: "absolute",
+    top: "37%",
+    left: "45%",
     // width: 10,
     // height: 10,
     // borderRadius: 5,
@@ -140,14 +174,14 @@ const styles = StyleSheet.create({
     // transform: [{ translateX: -5 }, { translateY: -5 }],
   },
   boundingBox: {
-    position: 'absolute',
-    top: '5%',
-    left: '10%',
-    width: '80%',
-    height: '70%',
+    position: "absolute",
+    top: "5%",
+    left: "10%",
+    width: "80%",
+    height: "70%",
     borderWidth: 5,
-    borderColor: 'gray',
+    borderColor: "gray",
     borderRadius: 20,
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
   },
 });
