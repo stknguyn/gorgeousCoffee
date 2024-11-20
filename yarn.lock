@@ -6418,23 +6418,13 @@ __metadata:
   version: 1.0.7
   resolution: "available-typed-arrays@npm:1.0.7"
   dependencies:
-    possible-typed-array-names: "npm:^1.0.0"
-  checksum: 10/6c9da3a66caddd83c875010a1ca8ef11eac02ba15fb592dc9418b2b5e7b77b645fa7729380a92d9835c2f05f2ca1b6251f39b993e0feb3f1517c74fa1af02cab
-  languageName: node
-  linkType: hard
+    possible-typed-array-names "^1.0.0"
 
-"babel-core@npm:^7.0.0-bridge.0":
-  version: 7.0.0-bridge.0
-  resolution: "babel-core@npm:7.0.0-bridge.0"
-  peerDependencies:
-    "@babel/core": ^7.0.0-0
-  checksum: 10/2a1cb879019dffb08d17bec36e13c3a6d74c94773f41c1fd8b14de13f149cc34b705b0a1e07b42fcf35917b49d78db6ff0c5c3b00b202a5235013d517b5c6bbb
-  languageName: node
-  linkType: hard
+babel-core@^7.0.0-bridge.0:
+  version "7.0.0-bridge.0"
 
-"babel-jest@npm:^29.7.0":
-  version: 29.7.0
-  resolution: "babel-jest@npm:29.7.0"
+babel-literal-to-ast@^2.1.0:
+  version "2.1.0"
   dependencies:
     "@jest/transform": "npm:^29.7.0"
     "@types/babel__core": "npm:^7.1.14"
@@ -6549,38 +6539,25 @@ __metadata:
   version: 0.23.1
   resolution: "babel-plugin-syntax-hermes-parser@npm:0.23.1"
   dependencies:
-    hermes-parser: "npm:0.23.1"
-  checksum: 10/5412008e8e85b08cd0d78168f746ade68b8ed69c0068831ce5e3d028f01c644f546ca0e2b7c9a4a8c6b9d5f14aff84c2453ab44b19cbec55e4366b20bbba9040
-  languageName: node
-  linkType: hard
+    "@babel/plugin-proposal-decorators" "^7.12.9"
+    "@babel/plugin-transform-export-namespace-from" "^7.22.11"
+    "@babel/plugin-transform-object-rest-spread" "^7.12.13"
+    "@babel/plugin-transform-parameters" "^7.22.15"
+    "@babel/preset-react" "^7.22.15"
+    "@babel/preset-typescript" "^7.23.0"
+    "@react-native/babel-preset" "0.74.87"
+    babel-plugin-react-compiler "^0.0.0-experimental-592953e-20240517"
+    babel-plugin-react-native-web "~0.19.10"
+    react-refresh "^0.14.2"
 
-"babel-plugin-syntax-hermes-parser@npm:^0.25.1":
-  version: 0.25.1
-  resolution: "babel-plugin-syntax-hermes-parser@npm:0.25.1"
-  dependencies:
-    hermes-parser: "npm:0.25.1"
-  checksum: 10/dc80fafde1aed8e60cf86ecd2e9920e7f35ffe02b33bd4e772daaa786167bcf508aac3fc1aea425ff4c7a0be94d82528f3fe8619b7f41dac853264272d640c04
-  languageName: node
-  linkType: hard
+balanced-match@^1.0.0:
+  version "1.0.2"
 
-"babel-plugin-tester@npm:^11.0.4":
-  version: 11.0.4
-  resolution: "babel-plugin-tester@npm:11.0.4"
-  dependencies:
-    core-js: "npm:^3.27.2"
-    debug: "npm:^4.3.4"
-    lodash.mergewith: "npm:^4.6.2"
-    prettier: "npm:^2.8.3"
-    strip-indent: "npm:^3.0.0"
-  peerDependencies:
-    "@babel/core": ">=7.11.6"
-  checksum: 10/e1550fb99903254c9e83e692056898a78e9a2a25636510e12488ff2a2c52d3ad448a569d90724d233fdda0ee23ae41d5f58320b5a8afaf15eef17be07dfaf1fb
-  languageName: node
-  linkType: hard
+base64-js@^1.2.3, base64-js@^1.3.1, base64-js@^1.5.1:
+  version "1.5.1"
 
-"babel-plugin-transform-flow-enums@npm:^0.0.2":
-  version: 0.0.2
-  resolution: "babel-plugin-transform-flow-enums@npm:0.0.2"
+better-opn@~3.0.2:
+  version "3.0.2"
   dependencies:
     "@babel/plugin-syntax-flow": "npm:^7.12.1"
   checksum: 10/fd52aef54448e01948a9d1cca0c8f87d064970c8682458962b7a222c372704bc2ce26ae8109e0ab2566e7ea5106856460f04c1a5ed794ab3bcd2f42cae1d9845
@@ -9166,45 +9143,22 @@ __metadata:
   version: 2.0.0
   resolution: "find-yarn-workspace-root@npm:2.0.0"
   dependencies:
-    micromatch: "npm:^4.0.2"
-  checksum: 10/7fa7942849eef4d5385ee96a0a9a5a9afe885836fd72ed6a4280312a38690afea275e7d09b343fe97daf0412d833f8ac4b78c17fc756386d9ebebf0759d707a7
-  languageName: node
-  linkType: hard
+    micromatch "^4.0.2"
 
-"flow-enums-runtime@npm:^0.0.6":
-  version: 0.0.6
-  resolution: "flow-enums-runtime@npm:0.0.6"
-  checksum: 10/df54ec17f6edbe2bcf17cb1e681faf3bac86e65490e819fdf29713e701eed0448c7db6d42606bf0f7044ce6909ee052920f930bbc251999e4f74e258f1d8790e
-  languageName: node
-  linkType: hard
+flow-enums-runtime@^0.0.6:
+  version "0.0.6"
 
-"flow-parser@npm:0.*":
-  version: 0.253.0
-  resolution: "flow-parser@npm:0.253.0"
-  checksum: 10/6b2d4f716bbd29e7a97a0492f776715a32829fc12cb4aa9c1211fa060aa6bb24a4706cfcde73d9a26409fba48b60e81cfb4cc2ff37360b31b733c11fd236744a
-  languageName: node
-  linkType: hard
+flow-parser@0.*:
+  version "0.245.2"
 
-"follow-redirects@npm:^1.0.0":
-  version: 1.15.9
-  resolution: "follow-redirects@npm:1.15.9"
-  peerDependenciesMeta:
-    debug:
-      optional: true
-  checksum: 10/e3ab42d1097e90d28b913903841e6779eb969b62a64706a3eb983e894a5db000fbd89296f45f08885a0e54cd558ef62e81be1165da9be25a6c44920da10f424c
-  languageName: node
-  linkType: hard
+follow-redirects@^1.0.0:
+  version "1.15.9"
 
-"fontfaceobserver@npm:^2.1.0":
-  version: 2.3.0
-  resolution: "fontfaceobserver@npm:2.3.0"
-  checksum: 10/fec6de6b7050856f9e5f03375d6dd762b66a7fe5c52516fa9a39ab8be8f6cb62abe758e4efaab2c24caeb03b2d992bdffb397dd016e537309d05ed6ade396b20
-  languageName: node
-  linkType: hard
+fontfaceobserver@^2.1.0:
+  version "2.3.0"
 
-"for-each@npm:^0.3.3":
-  version: 0.3.3
-  resolution: "for-each@npm:0.3.3"
+for-each@^0.3.3:
+  version "0.3.3"
   dependencies:
     is-callable: "npm:^1.1.3"
   checksum: 10/fdac0cde1be35610bd635ae958422e8ce0cc1313e8d32ea6d34cfda7b60850940c1fd07c36456ad76bd9c24aef6ff5e03b02beb58c83af5ef6c968a64eada676
@@ -9225,23 +9179,15 @@ __metadata:
   version: 3.0.2
   resolution: "form-data@npm:3.0.2"
   dependencies:
-    asynckit: "npm:^0.4.0"
-    combined-stream: "npm:^1.0.8"
-    mime-types: "npm:^2.1.12"
-  checksum: 10/b8d71d7149de5881c6c8ac75c03ac2e809b1b729399320cc41f59a63043fa34b95dfef5259212d6d902abb4916af48a7ca60ad5c035806ba8e3c7843dbaf3057
-  languageName: node
-  linkType: hard
+    asynckit "^0.4.0"
+    combined-stream "^1.0.8"
+    mime-types "^2.1.12"
 
-"forwarded@npm:0.2.0":
-  version: 0.2.0
-  resolution: "forwarded@npm:0.2.0"
-  checksum: 10/29ba9fd347117144e97cbb8852baae5e8b2acb7d1b591ef85695ed96f5b933b1804a7fac4a15dd09ca7ac7d0cdc104410e8102aae2dd3faa570a797ba07adb81
-  languageName: node
-  linkType: hard
+forwarded@0.2.0:
+  version "0.2.0"
 
-"framer-motion@npm:^6.5.1":
-  version: 6.5.1
-  resolution: "framer-motion@npm:6.5.1"
+framer-motion@^6.5.1:
+  version "6.5.1"
   dependencies:
     "@emotion/is-prop-valid": "npm:^0.8.2"
     "@motionone/dom": "npm:10.12.0"
@@ -9552,26 +9498,25 @@ __metadata:
   version: 7.2.3
   resolution: "glob@npm:7.2.3"
   dependencies:
-    fs.realpath: "npm:^1.0.0"
-    inflight: "npm:^1.0.4"
-    inherits: "npm:2"
-    minimatch: "npm:^3.1.1"
-    once: "npm:^1.3.0"
-    path-is-absolute: "npm:^1.0.0"
-  checksum: 10/59452a9202c81d4508a43b8af7082ca5c76452b9fcc4a9ab17655822e6ce9b21d4f8fbadabe4fe3faef448294cec249af305e2cd824b7e9aaf689240e5e96a7b
-  languageName: node
-  linkType: hard
+    foreground-child "^3.1.0"
+    jackspeak "^3.1.2"
+    minimatch "^9.0.4"
+    minipass "^7.1.2"
+    package-json-from-dist "^1.0.0"
+    path-scurry "^1.11.1"
 
-"globals@npm:^11.1.0":
-  version: 11.12.0
-  resolution: "globals@npm:11.12.0"
-  checksum: 10/9f054fa38ff8de8fa356502eb9d2dae0c928217b8b5c8de1f09f5c9b6c8a96d8b9bd3afc49acbcd384a98a81fea713c859e1b09e214c60509517bb8fc2bc13c2
-  languageName: node
-  linkType: hard
+glob@^7.1.1, glob@^7.1.3, glob@^7.1.7, glob@^7.2.3:
+  version "7.2.3"
+  dependencies:
+    fs.realpath "^1.0.0"
+    inflight "^1.0.4"
+    inherits "2"
+    minimatch "^3.1.1"
+    once "^1.3.0"
+    path-is-absolute "^1.0.0"
 
-"globalthis@npm:^1.0.4":
-  version: 1.0.4
-  resolution: "globalthis@npm:1.0.4"
+glob@7.1.6:
+  version "7.1.6"
   dependencies:
     define-properties: "npm:^1.2.1"
     gopd: "npm:^1.0.1"
@@ -13409,15 +13354,11 @@ __metadata:
   version: 2.0.7
   resolution: "proxy-addr@npm:2.0.7"
   dependencies:
-    forwarded: "npm:0.2.0"
-    ipaddr.js: "npm:1.9.1"
-  checksum: 10/f24a0c80af0e75d31e3451398670d73406ec642914da11a2965b80b1898ca6f66a0e3e091a11a4327079b2b268795f6fa06691923fef91887215c3d0e8ea3f68
-  languageName: node
-  linkType: hard
+    forwarded "0.2.0"
+    ipaddr.js "1.9.1"
 
-"pump@npm:^3.0.0":
-  version: 3.0.2
-  resolution: "pump@npm:3.0.2"
+pump@^3.0.0:
+  version "3.0.2"
   dependencies:
     end-of-stream: "npm:^1.1.0"
     once: "npm:^1.3.1"
@@ -13613,28 +13554,16 @@ __metadata:
   version: 0.0.36
   resolution: "react-native-css-interop@npm:0.0.36"
   dependencies:
-    "@babel/helper-module-imports": "npm:^7.22.15"
-    "@babel/traverse": "npm:^7.23.0"
-    "@babel/types": "npm:^7.23.0"
-    babel-plugin-tester: "npm:^11.0.4"
-    lightningcss: "npm:1.22.0"
-  peerDependencies:
-    react: ">=18"
-    react-native: "*"
-    react-native-reanimated: ">=3.6.2"
-    tailwindcss: ~3
-  peerDependenciesMeta:
-    react-native-safe-area-context:
-      optional: true
-    react-native-svg:
-      optional: true
-  checksum: 10/5d99c7bfe0ef7b75032b60b162c3991fa162d200d3c5f64935e6a31c888173532bf06e6a551286b18ad20f419926af8fb64aa6884feccd76f38aacae517acbf5
-  languageName: node
-  linkType: hard
+    "@babel/helper-module-imports" "^7.22.15"
+    "@babel/traverse" "^7.23.0"
+    "@babel/types" "^7.23.0"
+    babel-plugin-tester "^11.0.4"
+    lightningcss "1.22.0"
 
-"react-native-gesture-handler@npm:^2.21.0":
-  version: 2.21.0
-  resolution: "react-native-gesture-handler@npm:2.21.0"
+"react-native-gesture-handler@>= 1.0.0":
+  version "2.20.2"
+  resolved "https://registry.npmjs.org/react-native-gesture-handler/-/react-native-gesture-handler-2.20.2.tgz"
+  integrity sha512-HqzFpFczV4qCnwKlvSAvpzEXisL+Z9fsR08YV5LfJDkzuArMhBu2sOoSPUF/K62PCoAb+ObGlTC83TKHfUd0vg==
   dependencies:
     "@egjs/hammerjs": "npm:^2.0.17"
     hoist-non-react-statics: "npm:^3.3.0"
