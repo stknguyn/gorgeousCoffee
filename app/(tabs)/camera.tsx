@@ -37,7 +37,7 @@ export default function Camera() {
   const [permission, requestPermission] = useCameraPermissions();
   const [photo, setPhoto] = useState<any>(null);
   const cameraRef = useRef<CameraView | null>(null);
-  const [image, setImage] = useState<string | null>(null);
+  const [image, setImage] = useState<any | null>(null);
   const [name, setName] = useState<string | null>(null);
   const [cause, setCause] = useState<string | null>(null);
   const [solution, setSolution] = useState<string | null>(null);
@@ -111,49 +111,50 @@ export default function Camera() {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       quality: 1,
       base64: false,
+      allowsEditing: true,
     });
   
     console.log(result);
   
     if (!result.canceled) {
-      setImage(result.assets[0].uri);
+      setImage(result.assets[0]);
 
-      setImage(result.assets[0].uri); // Set the selected image URI
+      // setImage(result.assets[0].uri); // Set the selected image URI
   
       // Prepare the FormData for the API call
-      const formData = new FormData();
-      formData.append('file', {
-        uri: result.assets[0].uri, // Use the 'image' state variable
-        type: 'image/jpeg',
-        name: 'photo.jpg',
-      } as any);      
-      formData.append('user_id', '672e3f347e1a5495453f36f8');
+      // const formData = new FormData();
+      // formData.append('file', {
+      //   uri: result.assets[0].uri, // Use the 'image' state variable
+      //   type: 'image/jpeg',
+      //   name: 'photo.jpg',
+      // } as any);      
+      // formData.append('user_id', '672e3f347e1a5495453f36f8');
   
-      try {
-        const response = await fetch('https://cfapi.share.zrok.io/predictor/predict', {
-          method: 'POST',
-          body: formData,
-        });
+      // try {
+      //   const response = await fetch('https://cfapi.share.zrok.io/predictor/predict', {
+      //     method: 'POST',
+      //     body: formData,
+      //   });
   
-        const data = await response.json();
+      //   const data = await response.json();
   
-        if (response.ok) {
-          console.log('API Response:', data);
-          setResult(`Tên bệnh: ${data.result.name}\nNguyên nhân: ${data.result.cause}\nGiải pháp: ${data.result.solution}`);
-          setName(data.result.name);
-          setCause(data.result.cause);
-          setSolution(data.result.solution);
-          setPrephoto(data.image_url);
-        } else {
-          console.error('Error in API request:', data);
-          alert('Error while processing the image.');
-          setResult(`Lỗi: ${data.message || 'Không thể dự đoán'}`);
-        }
-      } catch (error) {
-        console.error('API call failed:', error);
-        alert('An error occurred while calling the API.');
-        setResult('Đã xảy ra lỗi khi gửi API.');
-      }
+      //   if (response.ok) {
+      //     console.log('API Response:', data);
+      //     setResult(`Tên bệnh: ${data.result.name}\nNguyên nhân: ${data.result.cause}\nGiải pháp: ${data.result.solution}`);
+      //     setName(data.result.name);
+      //     setCause(data.result.cause);
+      //     setSolution(data.result.solution);
+      //     setPrephoto(data.image_url);
+      //   } else {
+      //     console.error('Error in API request:', data);
+      //     alert('Error while processing the image.');
+      //     setResult(`Lỗi: ${data.message || 'Không thể dự đoán'}`);
+      //   }
+      // } catch (error) {
+      //   console.error('API call failed:', error);
+      //   alert('An error occurred while calling the API.');
+      //   setResult('Đã xảy ra lỗi khi gửi API.');
+      // }
 
     }
   }

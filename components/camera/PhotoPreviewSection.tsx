@@ -12,6 +12,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import { CameraCapturedPicture } from 'expo-camera';
 import { router } from 'expo-router';
 import Result from 'app/result';
+import { useRouter } from 'expo-router';
 
 const PhotoPreviewSection = ({
   photo,
@@ -20,6 +21,7 @@ const PhotoPreviewSection = ({
   photo: CameraCapturedPicture;
   handleRetakePhoto: () => void;
 }) => {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<string | null>(null);
   const [name, setName] = useState<string | null>(null);
@@ -64,12 +66,15 @@ const PhotoPreviewSection = ({
       setResult('Đã xảy ra lỗi khi gửi API.');
     } finally {
       setLoading(false);
+      if (name && cause && solution && prePhoto) {
+        router.push({ pathname: '/result', params: { uri: prePhoto, name, cause, solution } });
     }
+  }
   };
 
   // console.log(result)
 
-  if (result) return <Result name={name} cause={cause} solution={solution} uri={prePhoto} />
+  // if (result) return <Result name={name} cause={cause} solution={solution} uri={prePhoto} />
 
   return (
     <SafeAreaView style={styles.container}>

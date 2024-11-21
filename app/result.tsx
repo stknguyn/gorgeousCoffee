@@ -2,8 +2,16 @@ import { Button } from 'react-native'; // Import Button component
 import React, { useState } from "react";
 import { View, Text, Image, StyleSheet, ScrollView } from "react-native";
 import { router } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 
-export default function Result({ name, cause, solution, uri }) {
+export default function Result() {
+
+
+
+  const router = useRouter();
+  const searchParams = useLocalSearchParams() as { uri: string; name: string; cause: string; solution: string };
+  const { uri, name, cause, solution } = searchParams;
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       {/* Header */}

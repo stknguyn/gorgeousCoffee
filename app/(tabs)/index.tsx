@@ -1,4 +1,5 @@
 import { Dimensions, ImageBackground, StyleSheet, View } from "react-native";
+import GetLocation from 'react-native-get-location'
 import {
   LoaderCircle,
   TimerReset,
