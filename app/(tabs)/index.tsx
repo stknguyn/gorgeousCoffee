@@ -1,5 +1,4 @@
 import { Dimensions, ImageBackground, StyleSheet, View } from "react-native";
-import GetLocation from 'react-native-get-location'
 import {
   LoaderCircle,
   TimerReset,
@@ -33,12 +32,13 @@ import city from "../../assets/images/city.png";
 import FeatureItem from "components/home/featurebox";
 import GlassmorphismCard from "components/home/GlassContainer";
 import MyPlantCard from "components/home/myplantContainer";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "expo-router";
 
+import * as Location from 'expo-location';
+
 export default function Home() {
-  const test = 10;
-  const weather = "Nhiều mây";
+
   const features = [
     {
       iconUrl: "https://cdn-icons-png.flaticon.com/512/1041/1041022.png",
@@ -64,8 +64,70 @@ export default function Home() {
   //   router.replace("/login");
   // }, [router]);
 
+  const [loading, setLoading] = useState(false);
+  const [location, setLocation] = useState<Location.LocationObject | null>(null);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [weather, setWeather] = useState<any | null>(null);
+  
+
+  useEffect(() => {
+    async function getCurrentLocation() {
+      try {
+        setLoading(true); // Bắt đầu loading
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== 'granted') {
+          setErrorMsg('Permission to access location was denied');
+          setLoading(false);
+          return;
+        }
+
+        let location = await Location.getCurrentPositionAsync({});
+        setLocation(location);
+      } catch (error) {
+        setErrorMsg('Error getting location');
+        console.error(error);
+      } finally {
+        setLoading(false); // Dừng loading
+      }
+    }
+
+    getCurrentLocation();
+  }, []);
+
+    useEffect(() => {
+    async function getWeather() {
+      if (location) {
+        try {
+          setLoading(true); // Bắt đầu loading
+          const response = await fetch(
+            `http://api.weatherapi.com/v1/current.json?key=${process.env.EXPO_PUBLIC_WEATHER_API_KEY}&q=${location.coords.latitude},${location.coords.longitude}&lang=vi`
+          );
+          const data = await response.json();
+          setWeather({
+            location: data.location.name,
+            temp_c: data.current.temp_c,
+            wind_kph: data.current.wind_kph,
+            humidity: data.current.humidity,
+            condition: data.current.condition.text,
+            icon: data.current.condition.icon.replace(/^\/\//, ""),
+          });
+        } catch (error) {
+          setErrorMsg('Error getting weather');
+          console.error(error);
+        } finally {
+          setLoading(false); // Dừng loading
+        }
+      }
+    }
+
+    getWeather();
+  }, [location]); // Chỉ chạy khi `location` đã có giá trị
+
   return (
-    <ScrollView>
+    loading ? (
+      <View></View>
+    ) : (
+      <ScrollView>
       <YStack backgroundColor="white">
         {/* Weather report */}
         <YStack gap="$5">
@@ -90,12 +152,20 @@ export default function Home() {
               />
               {/* Degrees */}
               <YStack position="absolute" top="50%" left="65%">
-                <Cloudy
+              <Image
+                source={{
+                uri: `https:${weather.icon}`,
+                }}
+                width={10}
+                height={10}
+                  />
+
+                {/* <Cloudy
                   size={40}
                   style={{
                     transform: [{ translateX: -43 }, { translateY: -50 }],
                   }}
-                />
+                /> */}
                 <Text
                   style={{
                     transform: [{ translateX: -50 }, { translateY: -50 }],
@@ -105,13 +175,13 @@ export default function Home() {
                     textAlign: "center",
                   }}
                 >
-                  26°C
+                  {weather ? weather.temp_c : ""}°C
                 </Text>
               </YStack>
 
               {/* Weather type */}
               <Text textAlign="center" fontWeight="bold">
-                {weather}
+                {weather ? weather.condition : ""}
               </Text>
             </YStack>
 
@@ -120,7 +190,7 @@ export default function Home() {
                 <Text fontSize={"$7"} flexShrink={0}>
                   🏠
                 </Text>
-                <Text flexShrink={0}>Khuê Trung, ...</Text>
+                <Text flexShrink={0}>{weather ? weather.location : "" }</Text>
                 <TimerReset />
               </XStack>
               <YGroup gap="$3">
@@ -128,8 +198,8 @@ export default function Home() {
                   <ListItem
                     borderColor="$gray4"
                     borderWidth="$1"
-                    title="Chỉ số không khí"
-                    subTitle={"😷   " + test + "%"}
+                    title="Gió"
+                    subTitle={`🌪️   ${weather ? weather.wind_kph : ""} km/h`}
                     backgroundColor={"white"}
                     borderRadius={"$10"}
                   />
@@ -139,7 +209,7 @@ export default function Home() {
                     borderColor="$gray4"
                     borderWidth="$1"
                     title="Độ ẩm"
-                    subTitle={"💧   " + test + "%"}
+                    subTitle={`💧   ${weather ? weather.humidity : ""}`}
                     backgroundColor={"white"}
                     borderRadius={"$10"}
                   />
@@ -356,6 +426,7 @@ export default function Home() {
         {/* Logo team */}
       </YStack>
     </ScrollView>
+    )
   );
 }
 
