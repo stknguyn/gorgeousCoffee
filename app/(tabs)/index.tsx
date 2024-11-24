@@ -154,10 +154,11 @@ export default function Home() {
               <YStack position="absolute" top="50%" left="65%">
               <Image
                 source={{
-                uri: `https:${weather.icon}`,
+                uri: weather ? `https://${weather?.icon}` : "https://default-icon-url.png",
                 }}
-                width={10}
-                height={10}
+                width={40}
+                height={40}
+                transform={[{ translateX: -43 }, { translateY: -50 }]}
                   />
 
                 {/* <Cloudy
