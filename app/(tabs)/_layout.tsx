@@ -71,9 +71,9 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="create"
+        name="map"
         options={{
-          title: "Create",
+          title: "Map",
           headerLeft: () => (
             <Link href="/camera" asChild>
               <Button mr="$4" bg="$colorTransparent" color="$yellow12">
