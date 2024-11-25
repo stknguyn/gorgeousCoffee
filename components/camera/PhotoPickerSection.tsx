@@ -6,6 +6,7 @@ import EvilIcons from "@expo/vector-icons/EvilIcons";
 import { CameraCapturedPicture } from "expo-camera";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useRouter } from "expo-router";
+import Toast from "react-native-toast-message";
 
 const PhotoPickerSection = ({
   photo,
@@ -84,6 +85,13 @@ const PhotoPickerSection = ({
         // router.replace('/result');
       } else {
         setResult(`Lỗi: ${data.message || "Không thể dự đoán"}`);
+        Toast.show({
+          type: "error",
+          text1: "Lỗi",
+          text2: "Vui lòng thử lại",
+          text1Style: { fontSize: 20 },
+          text2Style: { fontSize: 16 },
+        })
       }
     } catch (error) {
       console.error("Error:", error);
@@ -121,6 +129,7 @@ const PhotoPickerSection = ({
           <AntDesign name="check" size={44} color="black" />
         </TouchableOpacity>
       </View>
+      <Toast />
     </SafeAreaView>
   );
 };
