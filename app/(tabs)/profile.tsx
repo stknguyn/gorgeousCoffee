@@ -39,9 +39,9 @@ export default function Profile() {
   // Đăng xuất
   const handleLogout = async () => {
     try {
-      await AsyncStorage.removeItem("phone"); 
+      await AsyncStorage.removeItem("phone");
       console.log("Đăng xuất thành công!");
-      router.replace("/login"); // Điều hướng 
+      router.replace("/login"); // Điều hướng
     } catch (e) {
       console.error("Error removing data from AsyncStorage:", e);
     }

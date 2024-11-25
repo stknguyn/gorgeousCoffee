@@ -8,7 +8,7 @@ import {
   Trees,
   Calendar,
   MessageSquare,
-  PhoneCall
+  PhoneCall,
 } from "@tamagui/lucide-icons";
 import {
   Paragraph,
@@ -40,7 +40,7 @@ import MyPlantCard from "components/home/myplantContainer";
 import { useEffect, useState } from "react";
 import { useRouter } from "expo-router";
 
-import Fontisto from '@expo/vector-icons/Fontisto';
+import Fontisto from "@expo/vector-icons/Fontisto";
 import * as Location from "expo-location";
 
 export default function Home() {
@@ -158,13 +158,15 @@ export default function Home() {
               {/* Degrees */}
               <YStack position="absolute" top="50%" left="65%">
                 <Image
-                source={{
-                uri: weather ? `https://${weather?.icon}` : "https://default-icon-url.png",
-                }}
-                width={40}
-                height={40}
-                transform={[{ translateX: -43 }, { translateY: -50 }]}
-                 />
+                  source={{
+                    uri: weather
+                      ? `https://${weather?.icon}`
+                      : "https://default-icon-url.png",
+                  }}
+                  width={40}
+                  height={40}
+                  transform={[{ translateX: -43 }, { translateY: -50 }]}
+                />
 
                 {/* <Cloudy
                   size={40}
@@ -430,7 +432,7 @@ export default function Home() {
             flexWrap="nowrap"
             alignItems="center"
           >
-            <H3 paddingLeft='$3'>Chuyên gia tư vấn</H3>
+            <H3 paddingLeft="$3">Chuyên gia tư vấn</H3>
             <XStack
               top="$1"
               right="$3"
@@ -438,59 +440,114 @@ export default function Home() {
               flexWrap="nowrap"
               alignItems="center"
             >
-              <Switch size="$2" theme={'green'}>
-                <Switch.Thumb animation="bouncy" theme={'green'} />
+              <Switch size="$2" theme={"green"}>
+                <Switch.Thumb animation="bouncy" theme={"green"} />
               </Switch>
               <Text>Offline</Text>
             </XStack>
           </XStack>
 
-          <YStack top='$3' borderWidth='$1' borderBlockColor='$gray3' borderLeftColor='$gray3' borderRightColor='$gray3' margin='$3' shadowColor='$accentColor' borderRadius='$5'>
-            <YStack backgroundColor='#ffffff' borderRadius='$5'>
-              <XStack gap="$5" padding='$3'>
-                  <Avatar
-                    size="$11"
-                    borderWidth="$1"
-                    borderColor="$gray3"
-                    borderRadius='$5'
-                  >
-                    <Avatar.Image
-                      accessibilityLabel="Cam"
-                      src="https://hoangkimlong.wordpress.com/wp-content/uploads/2020/03/pham-hong-duc-phuoc-ca-cao.jpg?w=584"
-                    />
-                    <Avatar.Fallback backgroundColor="$blue10" />
-                  </Avatar>
-                <YStack gap='$2' top='$1'>
+          <YStack
+            top="$3"
+            borderWidth="$1"
+            borderBlockColor="$gray3"
+            borderLeftColor="$gray3"
+            borderRightColor="$gray3"
+            margin="$3"
+            shadowColor="$accentColor"
+            borderRadius="$5"
+          >
+            <YStack backgroundColor="#ffffff" borderRadius="$5">
+              <XStack gap="$5" padding="$3">
+                <Avatar
+                  size="$11"
+                  borderWidth="$1"
+                  borderColor="$gray3"
+                  borderRadius="$5"
+                >
+                  <Avatar.Image
+                    accessibilityLabel="Cam"
+                    src="https://hoangkimlong.wordpress.com/wp-content/uploads/2020/03/pham-hong-duc-phuoc-ca-cao.jpg?w=584"
+                  />
+                  <Avatar.Fallback backgroundColor="$blue10" />
+                </Avatar>
+                <YStack gap="$2" top="$1">
                   <Text>0123456789</Text>
-                  <Text fontSize='$5' fontWeight='bold'>TS. Phạm Hồng Đức Phước</Text>
-                  <XStack gap='$2' flexWrap="nowrap" alignItems="center">
-                    <Trees size={24} color='#595959' />
-                    <Text fontSize='$4' color='#595959'>Hoa cây cảnh</Text>
+                  <Text fontSize="$5" fontWeight="bold">
+                    TS. Phạm Hồng Đức Phước
+                  </Text>
+                  <XStack gap="$2" flexWrap="nowrap" alignItems="center">
+                    <Trees size={24} color="#595959" />
+                    <Text fontSize="$4" color="#595959">
+                      Hoa cây cảnh
+                    </Text>
                   </XStack>
-                  <XStack gap='$2' backgroundColor='#E3E3E3' flexWrap="nowrap" alignItems="center" borderRadius='$3' padding='$2'>
-                    <Fontisto name="radio-btn-active" size={24} color="#949494" />
-                    <Text fontSize='$6' color='#949494'>Không trực tuyến</Text>
+                  <XStack
+                    gap="$2"
+                    backgroundColor="#E3E3E3"
+                    flexWrap="nowrap"
+                    alignItems="center"
+                    borderRadius="$3"
+                    padding="$2"
+                  >
+                    <Fontisto
+                      name="radio-btn-active"
+                      size={24}
+                      color="#949494"
+                    />
+                    <Text fontSize="$6" color="#949494">
+                      Không trực tuyến
+                    </Text>
                   </XStack>
                 </YStack>
               </XStack>
             </YStack>
-            <YStack backgroundColor='#EAF4FE' borderBottomRightRadius='$4' borderBottomLeftRadius='$4'>
-              <XStack justifyContent="space-between" padding='$2' flexWrap="nowrap" alignItems="center">
-                <XStack backgroundColor='#ffffff' borderRadius={100} width={48} height={48} alignItems="center" justifyContent="center">
-                  <Calendar size={24} color='#1F66AE' />
+            <YStack
+              backgroundColor="#EAF4FE"
+              borderBottomRightRadius="$4"
+              borderBottomLeftRadius="$4"
+            >
+              <XStack
+                justifyContent="space-between"
+                padding="$2"
+                flexWrap="nowrap"
+                alignItems="center"
+              >
+                <XStack
+                  backgroundColor="#ffffff"
+                  borderRadius={100}
+                  width={48}
+                  height={48}
+                  alignItems="center"
+                  justifyContent="center"
+                >
+                  <Calendar size={24} color="#1F66AE" />
                 </XStack>
-                <XStack backgroundColor='#ffffff' borderRadius='$10' padding='$3' gap='$2'>
-                  <MessageSquare size={24} color='#1F66AE' />
-                  <Text fontSize='$5' color='#1F66AE'>Đặt câu hỏi</Text>
+                <XStack
+                  backgroundColor="#ffffff"
+                  borderRadius="$10"
+                  padding="$3"
+                  gap="$2"
+                >
+                  <MessageSquare size={24} color="#1F66AE" />
+                  <Text fontSize="$5" color="#1F66AE">
+                    Đặt câu hỏi
+                  </Text>
                 </XStack>
-                <XStack backgroundColor='#ffffff' borderRadius='$10' padding='$3' gap='$2'>
-                  <PhoneCall size={24} color='#1F66AE' />
-                  <Text fontSize='$5' color='#1F66AE'>Đặt câu hỏi</Text>
+                <XStack
+                  backgroundColor="#ffffff"
+                  borderRadius="$10"
+                  padding="$3"
+                  gap="$2"
+                >
+                  <PhoneCall size={24} color="#1F66AE" />
+                  <Text fontSize="$5" color="#1F66AE">
+                    Đặt câu hỏi
+                  </Text>
                 </XStack>
               </XStack>
             </YStack>
           </YStack>
-
         </YStack>
 
         {/* Marketplace */}

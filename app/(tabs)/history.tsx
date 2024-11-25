@@ -1,74 +1,57 @@
 import { ScrollView, Image, View, StyleSheet } from "react-native";
 import { Paragraph, SizableText, YStack } from "tamagui";
-import React from "react";
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function History() {
+  const [items, setItems] = useState([]); // State lưu danh sách dữ liệu từ API
+  const [loading, setLoading] = useState(true); // State kiểm tra trạng thái tải dữ liệu
   const router = useRouter();
 
+  const labels = {
+    "1": "Miner",
+    "2": "Rust",
+    "3": "Phoma",
+    "4": "Cercospora",
+  };
+
   useEffect(() => {
-    const getData = async () => {
+    const fetchData = async () => {
       try {
-        const value = await AsyncStorage.getItem("phone");
-        if (value !== null) {
-        } else {
+        const phone = await AsyncStorage.getItem("phone");
+        if (!phone) {
           router.replace("/login");
+          return;
         }
-      } catch (e) {
-        console.error("Error reading value:", e);
+
+        const user_id = "672e3f347e1a5495453f36f8"; //
+        const response = await fetch(
+          `https://cfapi.share.zrok.io/histories/${user_id}`
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setItems(data); // Lưu dữ liệu vào state
+        } else {
+          console.error("Failed to fetch data: ", response.status);
+        }
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+      } finally {
+        setLoading(false); // Dừng trạng thái tải
       }
     };
 
-    getData(); // Gọi hàm lấy dữ liệu
-  }, [router]); // Chạy lại mỗi khi router thay đổi
+    fetchData();
+  }, [router]);
 
-  const items = [
-    {
-      imageUrl: "https://picsum.photos/200/300",
-      date: "2021-01-01",
-      predictedLabel: "Label 1",
-      information: "Information about image 1.",
-    },
-    {
-      imageUrl: "https://picsum.photos/200/300",
-      predictedLabel: "Label 2",
-      date: "2021-01-02",
-      information: "Information about image 2.",
-    },
-    {
-      imageUrl: "https://picsum.photos/200/300",
-      predictedLabel: "Label 2",
-      date: "2021-01-02",
-      information: "Information about image 2.",
-    },
-    {
-      imageUrl: "https://picsum.photos/200/300",
-      predictedLabel: "Label 2",
-      date: "2021-01-02",
-      information: "Information about image 2.",
-    },
-    {
-      imageUrl: "https://picsum.photos/200/300",
-      predictedLabel: "Label 2",
-      date: "2021-01-02",
-      information: "Information about image 2.",
-    },
-    {
-      imageUrl: "https://picsum.photos/200/300",
-      predictedLabel: "Label 2",
-      date: "2021-01-02",
-      information: "Information about image 2.",
-    },
-    {
-      imageUrl: "https://picsum.photos/200/300",
-      predictedLabel: "Label 2",
-      date: "2021-01-02",
-      information: "Information about image 2.",
-    },
-    // Add more items as needed
-  ];
+  if (loading) {
+    return (
+      <YStack alignItems="center" justifyContent="center" flex={1}>
+        <SizableText size="$3">Loading...</SizableText>
+      </YStack>
+    );
+  }
 
   return (
     <ScrollView>
@@ -76,27 +59,28 @@ export default function History() {
         <SizableText size="$3" style={styles.headerText}>
           History
         </SizableText>
-        {items.map((item, index) => (
+        {items.map((item) => (
           <YStack
-            key={index}
+            key={item.id} // Sử dụng `id` từ API làm key
             gap="$2"
             alignItems="center"
             style={styles.itemContainer}
           >
             <SizableText size="$2" style={styles.labelText}>
-              {item.date}
+              {new Date(item.created_at).toLocaleDateString()}{" "}
+              {/* Format ngày */}
             </SizableText>
-            <Image source={{ uri: item.imageUrl }} style={styles.image} />
+            <Image source={{ uri: item.image_url }} style={styles.image} />
             <SizableText size="$2" style={styles.labelText}>
-              {item.predictedLabel}
+              Result: {labels[item.result]} (Confidence: {item.confidence})
             </SizableText>
-            <Paragraph style={styles.infoText}>{item.information}</Paragraph>
           </YStack>
         ))}
       </YStack>
     </ScrollView>
   );
 }
+
 const styles = StyleSheet.create({
   itemContainer: {
     padding: 10,
@@ -113,17 +97,17 @@ const styles = StyleSheet.create({
   image: {
     width: 200,
     height: 300,
-    borderRadius: 20, // Slightly rounded corners
+    borderRadius: 20,
     borderWidth: 2,
     borderColor: "#ddd",
   },
   headerText: {
-    color: "#000000", // Change header text color
+    color: "#000000",
   },
   labelText: {
-    color: "#000000", // Change label text color
+    color: "#000000",
   },
   infoText: {
-    color: "#000000", // Change information text color
+    color: "#000000",
   },
 });

@@ -1,15 +1,17 @@
-import { Button } from 'react-native'; // Import Button component
+import { Button } from "react-native"; // Import Button component
 import React, { useState } from "react";
 import { View, Text, Image, StyleSheet, ScrollView } from "react-native";
-import { router } from 'expo-router';
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import { router } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 
 export default function Result() {
-
-
-
   const router = useRouter();
-  const searchParams = useLocalSearchParams() as { uri: string; name: string; cause: string; solution: string };
+  const searchParams = useLocalSearchParams() as {
+    uri: string;
+    name: string;
+    cause: string;
+    solution: string;
+  };
   const { uri, name, cause, solution } = searchParams;
 
   return (
@@ -32,23 +34,21 @@ export default function Result() {
 
         <View style={styles.infoSection}>
           <Text style={styles.infoTitle}>Nguyên nhân:</Text>
-          <Text style={styles.infoText}>
-            {cause}
-          </Text>
+          <Text style={styles.infoText}>{cause}</Text>
         </View>
 
         <View style={styles.infoSection}>
           <Text style={styles.infoTitle}>Tác động:</Text>
           <Text style={styles.infoText}>
-            Bệnh có thể gây thiệt hại năng suất rất cao, nhất là ở các vùng khí hậu nóng ẩm hoặc các mùa mưa lớn trong trường hợp không phát hiện kịp thời.
+            Bệnh có thể gây thiệt hại năng suất rất cao, nhất là ở các vùng khí
+            hậu nóng ẩm hoặc các mùa mưa lớn trong trường hợp không phát hiện
+            kịp thời.
           </Text>
         </View>
 
         <View style={styles.infoSection}>
           <Text style={styles.infoTitle}>Phòng ngừa:</Text>
-          <Text style={styles.infoText}>
-            {solution}
-          </Text>
+          <Text style={styles.infoText}>{solution}</Text>
         </View>
       </View>
     </ScrollView>
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     backgroundColor: "#fff",
     padding: 16,
-    height: 1050
+    height: 1050,
   },
   header: {
     fontSize: 20,

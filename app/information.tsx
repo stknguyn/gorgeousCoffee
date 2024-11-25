@@ -13,7 +13,7 @@ export default function EditInfo() {
   useEffect(() => {
     const getData = async () => {
       try {
-        const value = await AsyncStorage.getItem("phone");
+        const value = await AsyncStorage.getItem("authToken");
         if (value !== null) {
           setPhone(value);
         } else {

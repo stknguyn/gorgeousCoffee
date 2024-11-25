@@ -1,113 +1,198 @@
 import React, { useState } from "react";
-import { View, StyleSheet, KeyboardAvoidingView, Platform } from "react-native";
+import {
+  View,
+  StyleSheet,
+  KeyboardAvoidingView,
+  Platform,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
 import { useRouter } from "expo-router";
 import { Text, YStack, Button, Input, Label, Separator, H3 } from "tamagui";
-import { LogIn, Phone, Lock } from "@tamagui/lucide-icons"; // Import các icon
+import { LogIn, Phone, Lock, User } from "@tamagui/lucide-icons";
+import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default function LoginScreen() {
+export default function AuthScreen() {
+  const [isRegister, setIsRegister] = useState(false);
   const [phone, setPhone] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [username, setUsername] = useState<string>("");
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
+
+  const url = "https://cfapi.share.zrok.io";
+  const url_post_register = url + "/auth/register";
+  const url_post_login = url + "/auth/login";
 
   const router = useRouter();
 
   const handleLogin = async () => {
     try {
+      const response = await axios.post(url_post_login, {
+        phone,
+        password,
+      });
+
+      var token = response.data.token;
       await AsyncStorage.setItem("phone", phone);
-    } catch (e) {
-      // Handle saving error
+
+      alert("Đăng nhập thành công!");
+
+      router.replace("/(tabs)/");
+    } catch (error) {
+      alert(error.response?.data?.message || "Đăng nhập thất bại");
+    }
+  };
+
+  const handleRegister = async () => {
+    if (password.length == 0 || phone.length == 0) {
+      alert("Bạn vui lòng điền đầy đủ thông tin!");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      alert("Mật khẩu xác nhận không khớp!");
+      return;
     }
 
     try {
-      const value = await AsyncStorage.getItem("phone");
-      if (value !== null) {
-        // Handle value retrieved
-        console.log(value);
-      }
-    } catch (e) {
-      // Handle error reading value
-    }
+      const response = await axios.post(url_post_register, {
+        username,
+        phone,
+        password,
+      });
 
-    router.replace("/(tabs)/");
+      alert(response.data.message);
+      console.log("Registered with:", { username, phone, password });
+      setIsRegister(false);
+    } catch (error) {
+      alert(error.response?.data?.message || "Đăng ký thất bại");
+    }
   };
 
   return (
-    <View style={styles.container}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={styles.inner}
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={styles.container}
+    >
+      <ScrollView
+        contentContainerStyle={styles.scrollContainer}
+        keyboardShouldPersistTaps="handled"
       >
-        <YStack
-          alignItems="center"
-          justifyContent="center"
-          padding="$5"
-          gap="$5"
-          style={styles.form}
-        >
-          <H3 style={styles.header}>Đăng nhập</H3>
-          <Separator style={styles.separator} />
-
-          {/* Phone Input */}
-          <Label style={styles.label}>Số điện thoại</Label>
-          <View style={styles.inputContainer}>
-            <Phone size={20} style={styles.icon} />
-            <Input
-              placeholder="Nhập số điện thoại"
-              keyboardType="phone-pad"
-              width="100%"
-              value={phone}
-              onChangeText={setPhone}
-              style={styles.input}
-            />
-          </View>
-
-          {/* Password Input */}
-          <Label style={styles.label}>Mật khẩu</Label>
-          <View style={styles.inputContainer}>
-            <Lock size={20} style={styles.icon} />
-            <Input
-              placeholder="Nhập mật khẩu"
-              secureTextEntry
-              width="100%"
-              value={password}
-              onChangeText={setPassword}
-              style={styles.input}
-            />
-          </View>
-
-          {/* Login Button */}
-          <Button
-            onPress={handleLogin}
-            backgroundColor="blue"
-            color="white"
-            width="100%"
-            style={styles.button}
+        <View style={styles.inner}>
+          <YStack
+            alignItems="center"
+            justifyContent="center"
+            padding="$5"
+            gap="$5"
+            style={styles.form}
           >
-            <LogIn size={20} style={styles.buttonIcon} /> Đăng nhập
-          </Button>
-        </YStack>
-      </KeyboardAvoidingView>
-    </View>
+            <H3 style={styles.header}>
+              {isRegister ? "Đăng ký" : "Đăng nhập"}
+            </H3>
+            <Separator style={styles.separator} />
+
+            {isRegister && (
+              <>
+                <Label style={styles.label}>Tên người dùng</Label>
+                <View style={styles.inputContainer}>
+                  <User size={20} style={styles.icon} />
+                  <Input
+                    placeholder="Nhập tên người dùng"
+                    value={username}
+                    onChangeText={setUsername}
+                    style={styles.input}
+                  />
+                </View>
+              </>
+            )}
+
+            <Label style={styles.label}>Số điện thoại</Label>
+            <View style={styles.inputContainer}>
+              <Phone size={20} style={styles.icon} />
+              <Input
+                placeholder="Nhập số điện thoại"
+                keyboardType="phone-pad"
+                value={phone}
+                onChangeText={setPhone}
+                style={styles.input}
+              />
+            </View>
+
+            <Label style={styles.label}>Mật khẩu</Label>
+            <View style={styles.inputContainer}>
+              <Lock size={20} style={styles.icon} />
+              <Input
+                placeholder="Nhập mật khẩu"
+                secureTextEntry
+                value={password}
+                onChangeText={setPassword}
+                style={styles.input}
+              />
+            </View>
+
+            {isRegister && (
+              <>
+                <Label style={styles.label}>Xác nhận mật khẩu</Label>
+                <View style={styles.inputContainer}>
+                  <Lock size={20} style={styles.icon} />
+                  <Input
+                    placeholder="Nhập lại mật khẩu"
+                    secureTextEntry
+                    value={confirmPassword}
+                    onChangeText={setConfirmPassword}
+                    style={styles.input}
+                  />
+                </View>
+              </>
+            )}
+
+            <Button
+              onPress={isRegister ? handleRegister : handleLogin}
+              backgroundColor="blue"
+              color="white"
+              width="100%"
+              style={styles.button}
+            >
+              {isRegister ? "Đăng ký" : "Đăng nhập"}
+            </Button>
+
+            <TouchableOpacity
+              onPress={() => setIsRegister(!isRegister)}
+              style={styles.toggle}
+            >
+              <Text style={styles.toggleText}>
+                {isRegister
+                  ? "Đã có tài khoản? Đăng nhập ngay"
+                  : "Chưa có tài khoản? Đăng ký"}
+              </Text>
+            </TouchableOpacity>
+          </YStack>
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f8f8f8", // Lighter background color for a more modern look
+    backgroundColor: "#f8f8f8",
+  },
+  scrollContainer: {
+    flexGrow: 1,
     justifyContent: "center",
-    padding: 20,
+    paddingVertical: 20,
   },
   inner: {
     justifyContent: "center",
     alignItems: "center",
-    flex: 1,
   },
   header: {
     fontSize: 24,
     fontWeight: "600",
     marginBottom: 20,
-    color: "#333", // Darker color for better contrast
+    color: "#333",
   },
   separator: {
     marginVertical: 10,
@@ -124,7 +209,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "700",
     marginBottom: 5,
-    color: "#555", // Darker label color
+    color: "#555",
   },
   inputContainer: {
     flexDirection: "row",
@@ -138,7 +223,7 @@ const styles = StyleSheet.create({
   icon: {
     marginLeft: 10,
     marginRight: 10,
-    color: "#007bff", // Color of the icon
+    color: "#007bff",
   },
   input: {
     flex: 1,
@@ -148,14 +233,17 @@ const styles = StyleSheet.create({
   button: {
     borderRadius: 99999,
     paddingVertical: 12,
-    backgroundColor: "#007bff", // Blue button color
+    backgroundColor: "#007bff",
     marginTop: 10,
     padding: 5,
     justifyContent: "center",
     alignItems: "center",
   },
-  buttonIcon: {
-    marginRight: 10,
-    color: "#fff",
+  toggle: {
+    marginTop: 15,
+  },
+  toggleText: {
+    color: "#007bff",
+    textDecorationLine: "underline",
   },
 });
