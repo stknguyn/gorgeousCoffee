@@ -5,6 +5,10 @@ import {
   Cloudy,
   ArrowBigRight,
   ListPlus,
+  Trees,
+  Calendar,
+  MessageSquare,
+  PhoneCall
 } from "@tamagui/lucide-icons";
 import {
   Paragraph,
@@ -13,7 +17,6 @@ import {
   XStack,
   YStack,
   Button,
-  Main,
   YGroup,
   Separator,
   ListItem,
@@ -26,6 +29,8 @@ import {
   H1,
   ScrollView,
   H2,
+  Switch,
+  Label,
 } from "tamagui";
 
 import city from "../../assets/images/city.png";
@@ -35,10 +40,10 @@ import MyPlantCard from "components/home/myplantContainer";
 import { useEffect, useState } from "react";
 import { useRouter } from "expo-router";
 
-import * as Location from 'expo-location';
+import Fontisto from '@expo/vector-icons/Fontisto';
+import * as Location from "expo-location";
 
 export default function Home() {
-
   const features = [
     {
       iconUrl: "https://cdn-icons-png.flaticon.com/512/1041/1041022.png",
@@ -65,18 +70,19 @@ export default function Home() {
   // }, [router]);
 
   const [loading, setLoading] = useState(false);
-  const [location, setLocation] = useState<Location.LocationObject | null>(null);
+  const [location, setLocation] = useState<Location.LocationObject | null>(
+    null
+  );
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [weather, setWeather] = useState<any | null>(null);
-  
 
   useEffect(() => {
     async function getCurrentLocation() {
       try {
         setLoading(true); // Bắt đầu loading
         let { status } = await Location.requestForegroundPermissionsAsync();
-        if (status !== 'granted') {
-          setErrorMsg('Permission to access location was denied');
+        if (status !== "granted") {
+          setErrorMsg("Permission to access location was denied");
           setLoading(false);
           return;
         }
@@ -84,7 +90,7 @@ export default function Home() {
         let location = await Location.getCurrentPositionAsync({});
         setLocation(location);
       } catch (error) {
-        setErrorMsg('Error getting location');
+        setErrorMsg("Error getting location");
         console.error(error);
       } finally {
         setLoading(false); // Dừng loading
@@ -94,7 +100,7 @@ export default function Home() {
     getCurrentLocation();
   }, []);
 
-    useEffect(() => {
+  useEffect(() => {
     async function getWeather() {
       if (location) {
         try {
@@ -112,7 +118,7 @@ export default function Home() {
             icon: data.current.condition.icon.replace(/^\/\//, ""),
           });
         } catch (error) {
-          setErrorMsg('Error getting weather');
+          setErrorMsg("Error getting weather");
           console.error(error);
         } finally {
           setLoading(false); // Dừng loading
@@ -123,11 +129,10 @@ export default function Home() {
     getWeather();
   }, [location]); // Chỉ chạy khi `location` đã có giá trị
 
-  return (
-    loading ? (
-      <View></View>
-    ) : (
-      <ScrollView>
+  return loading ? (
+    <View></View>
+  ) : (
+    <ScrollView>
       <YStack backgroundColor="white">
         {/* Weather report */}
         <YStack gap="$5">
@@ -152,13 +157,13 @@ export default function Home() {
               />
               {/* Degrees */}
               <YStack position="absolute" top="50%" left="65%">
-              <Image
+                {/* <Image
                 source={{
                 uri: `https:${weather.icon}`,
                 }}
                 width={10}
                 height={10}
-                  />
+                  /> */}
 
                 {/* <Cloudy
                   size={40}
@@ -190,7 +195,7 @@ export default function Home() {
                 <Text fontSize={"$7"} flexShrink={0}>
                   🏠
                 </Text>
-                <Text flexShrink={0}>{weather ? weather.location : "" }</Text>
+                <Text flexShrink={0}>{weather ? weather.location : ""}</Text>
                 <TimerReset />
               </XStack>
               <YGroup gap="$3">
@@ -416,17 +421,86 @@ export default function Home() {
           </YStack>
         </ZStack>
 
+        {/* Expert */}
+        <YStack top="$3">
+          <XStack
+            justifyContent="space-between"
+            gap="$3"
+            flexWrap="nowrap"
+            alignItems="center"
+          >
+            <H3 paddingLeft='$3'>Chuyên gia tư vấn</H3>
+            <XStack
+              top="$1"
+              right="$3"
+              gap="$3"
+              flexWrap="nowrap"
+              alignItems="center"
+            >
+              <Switch size="$2" theme={'green'}>
+                <Switch.Thumb animation="bouncy" theme={'green'} />
+              </Switch>
+              <Text>Offline</Text>
+            </XStack>
+          </XStack>
+
+          <YStack top='$3' borderWidth='$1' borderBlockColor='$gray3' borderLeftColor='$gray3' borderRightColor='$gray3' margin='$3' shadowColor='$accentColor' borderRadius='$5'>
+            <YStack backgroundColor='#ffffff' borderRadius='$5'>
+              <XStack gap="$5" padding='$3'>
+                  <Avatar
+                    size="$11"
+                    borderWidth="$1"
+                    borderColor="$gray3"
+                    borderRadius='$5'
+                  >
+                    <Avatar.Image
+                      accessibilityLabel="Cam"
+                      src="https://hoangkimlong.wordpress.com/wp-content/uploads/2020/03/pham-hong-duc-phuoc-ca-cao.jpg?w=584"
+                    />
+                    <Avatar.Fallback backgroundColor="$blue10" />
+                  </Avatar>
+                <YStack gap='$2' top='$1'>
+                  <Text>0123456789</Text>
+                  <Text fontSize='$5' fontWeight='bold'>TS. Phạm Hồng Đức Phước</Text>
+                  <XStack gap='$2' flexWrap="nowrap" alignItems="center">
+                    <Trees size={24} color='#595959' />
+                    <Text fontSize='$4' color='#595959'>Hoa cây cảnh</Text>
+                  </XStack>
+                  <XStack gap='$2' backgroundColor='#E3E3E3' flexWrap="nowrap" alignItems="center" borderRadius='$3' padding='$2'>
+                    <Fontisto name="radio-btn-active" size={24} color="#949494" />
+                    <Text fontSize='$6' color='#949494'>Không trực tuyến</Text>
+                  </XStack>
+                </YStack>
+              </XStack>
+            </YStack>
+            <YStack backgroundColor='#EAF4FE' borderBottomRightRadius='$4' borderBottomLeftRadius='$4'>
+              <XStack justifyContent="space-between" padding='$2' flexWrap="nowrap" alignItems="center">
+                <XStack backgroundColor='#ffffff' borderRadius={100} width={48} height={48} alignItems="center" justifyContent="center">
+                  <Calendar size={24} color='#1F66AE' />
+                </XStack>
+                <XStack backgroundColor='#ffffff' borderRadius='$10' padding='$3' gap='$2'>
+                  <MessageSquare size={24} color='#1F66AE' />
+                  <Text fontSize='$5' color='#1F66AE'>Đặt câu hỏi</Text>
+                </XStack>
+                <XStack backgroundColor='#ffffff' borderRadius='$10' padding='$3' gap='$2'>
+                  <PhoneCall size={24} color='#1F66AE' />
+                  <Text fontSize='$5' color='#1F66AE'>Đặt câu hỏi</Text>
+                </XStack>
+              </XStack>
+            </YStack>
+          </YStack>
+
+        </YStack>
+
         {/* Marketplace */}
         <XStack alignItems="center" justifyContent="center" height={300}>
           <H1 textAlign="center">CloseAI</H1>
         </XStack>
 
-        {/* Expert */}
         {/* News */}
         {/* Logo team */}
       </YStack>
     </ScrollView>
-    )
   );
 }
 
