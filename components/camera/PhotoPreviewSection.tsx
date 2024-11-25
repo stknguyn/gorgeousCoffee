@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Image,
   StyleSheet,
@@ -11,6 +11,7 @@ import EvilIcons from '@expo/vector-icons/EvilIcons';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { CameraCapturedPicture } from 'expo-camera';
 import { router } from 'expo-router';
+import * as Location from 'expo-location';
 import Result from 'app/result';
 import { useRouter } from 'expo-router';
 
@@ -28,6 +29,29 @@ const PhotoPreviewSection = ({
   const [cause, setCause] = useState<string | null>(null);
   const [solution, setSolution] = useState<string | null>(null);
   const [prePhoto, setPrephoto] = useState<string | null>(null);
+  const [location, setLocation] = useState<Location.LocationObject | null>(
+    null
+  );
+
+  useEffect(() => {
+    const getLocation = async () => {
+      try {
+        // const { status } = await Location.requestForegroundPermissionsAsync();
+        // if (status !== 'granted') {
+        //   console.error('Permission to access location was denied');
+        //   return;
+        // }
+
+        const location = await Location.getCurrentPositionAsync({});
+        setLocation(location);
+      } catch (error) {
+        console.error('Error getting location:', error);
+      }
+    };
+
+    getLocation();
+  }
+  , []);
 
   const handleCheckPhoto = async () => {
     setLoading(true);
@@ -39,6 +63,7 @@ const PhotoPreviewSection = ({
         name: 'photo.jpg',
       } as any); // Bypass TypeScript type check
       formData.append('user_id', '672e3f347e1a5495453f36f8');
+      formData.append('croods', `${location?.coords.latitude},${location?.coords.longitude}`);
 
       const response = await fetch('https://cfapi.share.zrok.io/predictor/predict', {
         method: 'POST',

@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
+import * as Location from 'expo-location';
 import { SafeAreaView } from "react-native-safe-area-context";
 import EvilIcons from "@expo/vector-icons/EvilIcons";
 import { CameraCapturedPicture } from "expo-camera";
@@ -19,8 +20,32 @@ const PhotoPickerSection = ({
   const [cause, setCause] = useState<string | null>(null);
   const [solution, setSolution] = useState<string | null>(null);
   const [prePhoto, setPrephoto] = useState<string | null>(null);
+  const [location, setLocation] = useState<Location.LocationObject | null>(
+    null
+  );
 
   const router = useRouter();
+
+
+  useEffect(() => {
+    const getLocation = async () => {
+      try {
+        // const { status } = await Location.requestForegroundPermissionsAsync();
+        // if (status !== 'granted') {
+        //   console.error('Permission to access location was denied');
+        //   return;
+        // }
+
+        const location = await Location.getCurrentPositionAsync({});
+        setLocation(location);
+      } catch (error) {
+        console.error('Error getting location:', error);
+      }
+    };
+
+    getLocation();
+  }
+  , []);
 
   const handleCheckPhoto = async () => {
     setLoading(true);
@@ -32,6 +57,7 @@ const PhotoPickerSection = ({
         name: "photo.jpg",
       } as any); // Bypass TypeScript type check
       formData.append("user_id", "672e3f347e1a5495453f36f8");
+      formData.append("croods", `${location?.coords.latitude},${location?.coords.longitude}`);
 
       const response = await fetch(
         "https://cfapi.share.zrok.io/predictor/predict",

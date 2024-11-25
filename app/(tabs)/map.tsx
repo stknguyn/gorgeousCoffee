@@ -40,7 +40,10 @@ export default function Map() {
         fetchData();
       }, []);
 
-    return (
+    return loading ? (
+        <View>
+        </View>
+    ) : (
         <View style={styles.container}>
             <MapView
                 style={styles.map}
@@ -54,7 +57,7 @@ export default function Map() {
             >
                 {data && data.map((item: any) => (
                     <Marker
-                    key={item._id}
+                    key={item.id}
                     coordinate={{
                         latitude: item.croods.lat,
                         longitude: item.croods.long,
