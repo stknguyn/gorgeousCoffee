@@ -106,7 +106,7 @@ export default function Home() {
         try {
           setLoading(true); // Bắt đầu loading
           const response = await fetch(
-            `http://api.weatherapi.com/v1/current.json?key=${process.env.EXPO_PUBLIC_WEATHER_API_KEY}&q=${location.coords.latitude},${location.coords.longitude}&lang=vi`
+            `http://api.weatherapi.com/v1/current.json?key=6cc7f8d8c1e74ddeb87131911242111&q=${location.coords.latitude},${location.coords.longitude}&lang=vi`
           );
           const data = await response.json();
           setWeather({
@@ -473,7 +473,7 @@ export default function Home() {
                 </Avatar>
                 <YStack gap="$2" top="$1">
                   <Text>0123456789</Text>
-                  <Text fontSize="$5" fontWeight="bold">
+                  <Text fontSize="$4" fontWeight="bold">
                     TS. Phạm Hồng Đức Phước
                   </Text>
                   <XStack gap="$2" flexWrap="nowrap" alignItems="center">
@@ -495,7 +495,7 @@ export default function Home() {
                       size={24}
                       color="#949494"
                     />
-                    <Text fontSize="$6" color="#949494">
+                    <Text fontSize="$4" color="#949494">
                       Không trực tuyến
                     </Text>
                   </XStack>

@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
-import * as Location from 'expo-location';
+import * as Location from "expo-location";
 import { SafeAreaView } from "react-native-safe-area-context";
 import EvilIcons from "@expo/vector-icons/EvilIcons";
 import { CameraCapturedPicture } from "expo-camera";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useRouter } from "expo-router";
 import Toast from "react-native-toast-message";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const PhotoPickerSection = ({
   photo,
@@ -27,7 +28,6 @@ const PhotoPickerSection = ({
 
   const router = useRouter();
 
-
   useEffect(() => {
     const getLocation = async () => {
       try {
@@ -40,25 +40,31 @@ const PhotoPickerSection = ({
         const location = await Location.getCurrentPositionAsync({});
         setLocation(location);
       } catch (error) {
-        console.error('Error getting location:', error);
+        console.error("Error getting location:", error);
       }
     };
 
     getLocation();
-  }
-  , []);
+  }, []);
 
   const handleCheckPhoto = async () => {
     setLoading(true);
     try {
+      const user_id = await AsyncStorage.getItem("user_id");
+      if (!user_id) {
+        throw new Error("Không tìm thấy user_id trong AsyncStorage.");
+      }
       const formData = new FormData();
       formData.append("file", {
         uri: photo.uri,
         type: "image/jpeg",
         name: "photo.jpg",
       } as any); // Bypass TypeScript type check
-      formData.append("user_id", "672e3f347e1a5495453f36f8");
-      formData.append("croods", `${location?.coords.latitude},${location?.coords.longitude}`);
+      formData.append("user_id", user_id);
+      formData.append(
+        "croods",
+        `${location?.coords.latitude},${location?.coords.longitude}`
+      );
 
       const response = await fetch(
         "https://cfapi.share.zrok.io/predictor/predict",
@@ -91,7 +97,7 @@ const PhotoPickerSection = ({
           text2: "Vui lòng thử lại",
           text1Style: { fontSize: 20 },
           text2Style: { fontSize: 16 },
-        })
+        });
       }
     } catch (error) {
       console.error("Error:", error);

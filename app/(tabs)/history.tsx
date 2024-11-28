@@ -25,24 +25,28 @@ export default function History() {
           return;
         }
 
-        const user_id = "672e3f347e1a5495453f36f8"; //
+        const user_id = await AsyncStorage.getItem("user_id");
         const response = await fetch(
           `https://cfapi.share.zrok.io/histories/${user_id}`
         );
         if (response.ok) {
           const data = await response.json();
-          setItems(data); // Lưu dữ liệu vào state
+          setItems(data);
         } else {
           console.error("Failed to fetch data: ", response.status);
         }
       } catch (error) {
         console.error("Error fetching data: ", error);
-      } finally {
-        setLoading(false); // Dừng trạng thái tải
       }
     };
 
+    // Gọi hàm fetch lần đầu
     fetchData();
+
+    // Định kỳ gọi fetch mỗi 30 giây
+    const interval = setInterval(fetchData, 30000); // 30 giây
+
+    return () => clearInterval(interval); // Dọn dẹp interval khi component unmount
   }, [router]);
 
   if (loading) {

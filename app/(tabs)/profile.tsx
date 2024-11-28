@@ -40,6 +40,8 @@ export default function Profile() {
   const handleLogout = async () => {
     try {
       await AsyncStorage.removeItem("phone");
+      await AsyncStorage.removeItem("user_id");
+      await AsyncStorage.removeItem("username");
       console.log("Đăng xuất thành công!");
       router.replace("/login"); // Điều hướng
     } catch (e) {

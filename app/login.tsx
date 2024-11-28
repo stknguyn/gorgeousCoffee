@@ -33,10 +33,21 @@ export default function AuthScreen() {
         password,
       });
 
-      var token = response.data.token;
-      await AsyncStorage.setItem("phone", phone);
+      var user_id = response.data.user.user_id;
+      var username = response.data.user.username;
+
+      console.log(response.data);
+      console.log(user_id);
+      console.log(phone);
+      console.log(username);
 
       alert("Đăng nhập thành công!");
+
+
+      await AsyncStorage.setItem("phone", phone);
+      await AsyncStorage.setItem("user_id", user_id);
+      await AsyncStorage.setItem("username", username);
+
 
       router.replace("/(tabs)/");
     } catch (error) {
