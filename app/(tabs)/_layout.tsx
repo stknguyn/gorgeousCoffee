@@ -1,169 +1,50 @@
-import { Link, Tabs } from "expo-router";
-import { Button, View, XStack, useTheme } from "tamagui";
-import { Menu, Search, Bell } from "@tamagui/lucide-icons";
-import TabBar from "components/TabBar";
-import Header from "components/Header";
+import { Tabs } from 'expo-router';
+import { Home, Map, Camera, History, User } from 'lucide-react-native';
 
 export default function TabLayout() {
-  const theme = useTheme();
-
-  const title = "LACAPHE";
-
   return (
     <Tabs
-      tabBar={(props) => <TabBar {...props} />}
       screenOptions={{
-        tabBarActiveTintColor: theme.red10.val,
+        headerShown: true,
         tabBarStyle: {
-          backgroundColor: theme.background.val,
-          borderTopColor: theme.borderColor.val,
+          backgroundColor: '#ffffff',
+          borderTopColor: '#e5e5e5',
         },
-        headerStyle: {
-          backgroundColor: theme.background.val,
-          borderBottomColor: theme.borderColor.val,
-        },
-        headerTintColor: theme.color.val,
-      }}
-    >
-      {/* <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <Atom color={color} />,
-          headerRight: () => (
-            <Link href="/modal" asChild>
-              <Button mr="$4" bg="$purple8" color="$purple12">
-                Hello!
-              </Button>
-            </Link>
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="two"
-        options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <AudioWaveform color={color} />,
-        }}
-      /> */}
+        tabBarActiveTintColor: '#0891b2',
+      }}>
       <Tabs.Screen
         name="index"
         options={{
-          title: "Home",
-          headerLeft: () => (
-            <Link href="/result" asChild>
-              <Button mr="$4" bg="$colorTransparent" color="$yellow12">
-                <Menu />
-              </Button>
-            </Link>
-          ),
-          headerTitleAlign: "center",
-          headerRight: () => (
-            <XStack gap="$3" right="$4">
-              <View>
-                <Search />
-              </View>
-              <View>
-                <Bell />
-              </View>
-            </XStack>
-          ),
+          title: 'Home',
+          tabBarIcon: ({ color, size }) => <Home size={size} color={color} />,
         }}
       />
       <Tabs.Screen
         name="map"
         options={{
-          title: "Map",
-          headerLeft: () => (
-            <Link href="/camera" asChild>
-              <Button mr="$4" bg="$colorTransparent" color="$yellow12">
-                <Menu />
-              </Button>
-            </Link>
-          ),
-          headerTitleAlign: "center",
-          headerRight: () => (
-            <XStack gap="$3" right="$4">
-              <View>
-                <Search />
-              </View>
-              <View>
-                <Bell />
-              </View>
-            </XStack>
-          ),
+          title: 'Map',
+          tabBarIcon: ({ color, size }) => <Map size={size} color={color} />,
         }}
       />
       <Tabs.Screen
         name="camera"
         options={{
-          title: "Camera",
-          headerLeft: () => (
-            <Link href="/camera" asChild>
-              <Button mr="$4" bg="$colorTransparent" color="$yellow12">
-                <Menu />
-              </Button>
-            </Link>
-          ),
-          headerTitleAlign: "center",
-          headerRight: () => (
-            <XStack gap="$3" right="$4">
-              <View>
-                <Search />
-              </View>
-              <View>
-                <Bell />
-              </View>
-            </XStack>
-          ),
+          title: 'Camera',
+          tabBarIcon: ({ color, size }) => <Camera size={size} color={color} />,
         }}
       />
       <Tabs.Screen
         name="history"
         options={{
-          title: "History",
-          headerLeft: () => (
-            <Link href="/camera" asChild>
-              <Button mr="$4" bg="$colorTransparent" color="$yellow12">
-                <Menu />
-              </Button>
-            </Link>
-          ),
-          headerTitleAlign: "center",
-          headerRight: () => (
-            <XStack gap="$3" right="$4">
-              <View>
-                <Search />
-              </View>
-              <View>
-                <Bell />
-              </View>
-            </XStack>
-          ),
+          title: 'History',
+          tabBarIcon: ({ color, size }) => <History size={size} color={color} />,
         }}
       />
       <Tabs.Screen
         name="profile"
         options={{
-          title: "Profile",
-          headerLeft: () => (
-            <Link href="/camera" asChild>
-              <Button mr="$4" bg="$colorTransparent" color="$yellow12">
-                <Menu />
-              </Button>
-            </Link>
-          ),
-          headerTitleAlign: "center",
-          headerRight: () => (
-            <XStack gap="$3" right="$4">
-              <View>
-                <Search />
-              </View>
-              <View>
-                <Bell />
-              </View>
-            </XStack>
-          ),
+          title: 'Profile',
+          tabBarIcon: ({ color, size }) => <User size={size} color={color} />,
         }}
       />
     </Tabs>
